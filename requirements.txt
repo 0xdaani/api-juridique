@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+elasticsearch
+beautifulsoup4
+lxml
+requests
