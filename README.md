@@ -47,7 +47,7 @@ Ce script lance un serveur FastAPI pour fournir une API qui permet d’interagir
 ```bash
 docker-compose up
 
-# Dans un autre terminal, une fois que Elasticsearch est prêt
+# Dans un autre terminal, une fois que Elasticsearch est prêt (aller sur l'url du serveur Elasticsearch http://localhost:9200/)
 pip install -r requirements.txt
 cd app/
 

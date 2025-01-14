@@ -83,6 +83,7 @@ class ElasticIndex(object):
 		return sorted([bucket['key'] for bucket in response['aggregations']['valeurs_uniques']['buckets']])
 
 
+	# Récupérer des textes filtrés par une décision
 	def get_text_filter_by_decision(self, decision: str) -> str:
 		return self.es.search(
 		    index=self.index,

@@ -7,13 +7,14 @@ import tarfile
 import subprocess
 import time
 
+# Télécharger tous les fichiers tar.gz de l'url donnée
 def downloading_files(url: str, path: str) -> list:
 	print(f"[*] Début de la récupération des fichiers depuis l'URL '{url}' vers le dossier '{path}'.")
 
 	response = requests.get(url)
 	soup = BeautifulSoup(response.text, "html.parser")
 
-	# Trouver tous les liens contenant .tar.gz
+	# Trouver tous les liens contenant les fichiers .tar.gz
 	file_links = [
 	    link.get("href") for link in soup.find_all("a", href=True) if link["href"].endswith(".tar.gz")
 	]
@@ -48,9 +49,9 @@ def downloading_files(url: str, path: str) -> list:
 
 	return file_links
 
-
+# Extraire les fichiers tar.gz
 def extracting_files(path: str, list_files: list) -> None:
-	# Dossier où seront les dossiers extraient
+	# Dossier où seront les fichiers extraient
 	os.makedirs(path, exist_ok=True)
 
 	print(f"[*] Extraction des fichiers tar.gz du dossier '{path}' vers le dossier '{path}'")
@@ -60,7 +61,7 @@ def extracting_files(path: str, list_files: list) -> None:
 		    file.extractall(path)  
 		    print(f"Extraction réussie du fichier: {path+file_to_extract}")
 
-
+# Récupérer le chemin de chaque fichier xml (avec la commande find)
 def list_of_xml_files(path_source: str) -> list:
 	print("[*] Récuperation d'informations dans les fichiers xml...")
 
@@ -78,7 +79,7 @@ def list_of_xml_files(path_source: str) -> list:
 
 	return path_xml_files
 
-
+# Récupérer l'id, le titre et la décision contenu dans un fichier xml
 def get_xml_info(path_xml_file: list) -> tuple:
 	# print(f"[*] Récuperation des infos du fichiers: {path_xml_file}")
 	
@@ -128,6 +129,7 @@ if __name__ == '__main__':
 	ei.send_all_data(list_tuple_infos_juritext)
 
 	print("[*] Extraction des documents et indexation dans Elasticsearch réussi!")
+
 	##############################
 
 	# # Temps d'attente pour que les données se chargent dans Elastic

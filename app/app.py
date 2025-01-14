@@ -6,6 +6,7 @@ import json
 from lxml import etree
 
 ei = ElasticIndex("http://localhost:9200/", "juri_text")
+# Récupération du nombre de document dans l'index
 ei.set_number_doc()
 
 # Créer l'application FastAPI
@@ -72,7 +73,7 @@ async def show_value(item: str):
     return html_content
 
 
-# Route pour renvoyer des données JSON
+# Route pour envoyer les données JSON d'un fichier
 @app.get("/json-data", response_class=JSONResponse)
 async def json_data(id: str):
     response = ei.es.search(index=ei.index, body={
