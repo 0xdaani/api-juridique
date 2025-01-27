@@ -2,9 +2,9 @@
 
 ## Description
 
-Ce projet est conçu pour collecter, traiter et mettre à disposition des données juridiques (décisions de la cour de cassation) via une API REST. 
-Il repose sur **Python**, **FastAPI**, **Elasticsearch**, et **Docker**. 
-L'objectif principal est de faciliter l'accès aux décisions juridiques, soit via une exploration structurée, soit par une recherche par mots-clés.
+Ce projet est conçu pour collecter, traiter et mettre à disposition des données juridiques (décisions de la cour de cassation) via une API REST.  
+Il repose sur **Python**, **FastAPI**, **Elasticsearch**, et **Docker**.  
+L'objectif principal est de faciliter l'accès aux décisions juridiques, soit via une exploration structurée, soit par une recherche par mots-clés. 
 
 ---
 
@@ -12,11 +12,11 @@ L'objectif principal est de faciliter l'accès aux décisions juridiques, soit v
 
 ### 1. Collecte et Indexation des Données
 
-Ce script assure le traitement des données :
-	1.	Récupération des données : Télécharge les fichiers depuis l’URL https://echanges.dila.gouv.fr/OPENDATA/CASS/ et les stocke dans le dossier `documents/`.
-	2.	Extraction : Décompresse les archives tar.gz dans le même dossier.
-	3.	Connexion à **Elasticsearch** : Établit une connexion avec un cluster Elasticsearch situé à http://localhost:9200/ sur l’index nommé `juri_text`.
-	4.	Envoi des données : Envoie les données structurées (champs : `id`, `title`, `decision`, `path`) vers l’index Elasticsearch.
+Ce script assure le traitement des données :  
+	1.	Récupération des données : Télécharge les fichiers depuis l’URL https://echanges.dila.gouv.fr/OPENDATA/CASS/ et les stocke dans le dossier `documents/`.  
+	2.	Extraction : Décompresse les archives tar.gz dans le même dossier.  
+	3.	Connexion à **Elasticsearch** : Établit une connexion avec un cluster Elasticsearch situé à http://localhost:9200/ sur l’index nommé `juri_text`.  
+	4.	Envoi des données : Envoie les données structurées (champs : `id`, `title`, `decision`, `path`) vers l’index Elasticsearch.  
 
 Une fois les données indexées, le programme termine son exécution.
 
@@ -78,7 +78,7 @@ docker-compose down
 
 ## Exemple d'une recherche recherche
 
-[](http://127.0.0.1:8000/search?query=1+avril)
+http://127.0.0.1:8000/search?query=1+avril
 
 
 
