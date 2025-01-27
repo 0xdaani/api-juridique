@@ -1,6 +1,9 @@
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, ElasticsearchWarning
 import time
+import warnings
 
+# Ignorer les avertissements Elasticsearch
+warnings.filterwarnings("ignore", category=ElasticsearchWarning)
 
 class ElasticIndex(object):
 	"""doc ElasticIndex"""
@@ -10,7 +13,11 @@ class ElasticIndex(object):
 		self.index = index
 		self.size_search = 0
 		
-		print(f"[*] Connexion au serveur Elasticsearch: ({url}{index})")
+		print(f"[*] Connexion au serveur Elasticsearch: {url}")
+
+		if not self.es.ping():
+			print(f"Connexion impossible avec Elasticsearch: {self.es.ping()}")
+			exit(-1)
 
 		# Vérifier si l'index existe déjà
 		if not self.es.indices.exists(index=index):

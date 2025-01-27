@@ -5,7 +5,8 @@ import requests
 import json
 from lxml import etree
 
-ei = ElasticIndex("http://localhost:9200/", "juri_text")
+ei = ElasticIndex("http://host.docker.internal:9200/", "juri_text")
+
 # Récupération du nombre de document dans l'index
 ei.set_number_doc()
 
@@ -51,7 +52,7 @@ async def home():
 async def show_value(item: str):
     liste_juri_text = ""
     for juri_text in ei.get_text_filter_by_decision(item)['hits']['hits']:
-        liste_juri_text += f"<a href='/json-data?id={juri_text['_source']['id']}'>{juri_text['_source']['id']} - {juri_text['_source']['title']}</a><br/>"
+        liste_juri_text += f"<a href='http://127.0.0.1:8000/json-data?id={juri_text['_source']['id']}'>{juri_text['_source']['id']} - {juri_text['_source']['title']}</a><br/>"
 
     html_content = f"""
     <html>
@@ -75,7 +76,7 @@ async def show_value(item: str):
 
 # Route pour envoyer les données JSON d'un fichier
 @app.get("/json-data", response_class=JSONResponse)
-async def json_data(id: str):
+async def json_data_response(id: str):
     response = ei.es.search(index=ei.index, body={
         "query": {
             "term": {
@@ -89,10 +90,9 @@ async def json_data(id: str):
         data = {'data':'not found'}
     else:
         path = response['hits']['hits'][0]['_source']['path']
-        # Charger le fichier XML
-        tree = etree.parse(path)
 
         # Utiliser XPath pour trouver et extraire le texte
+        tree = etree.parse(path)
         info_title   = tree.xpath('/TEXTE_JURI_JUDI/META/META_SPEC/META_JURI/TITRE/text()')[0] 
         info_contenu = tree.xpath('/TEXTE_JURI_JUDI/TEXTE/BLOC_TEXTUEL/CONTENU/text()')
 
@@ -103,7 +103,7 @@ async def json_data(id: str):
             "content": info_contenu
         }
 
-    return data
+    return JSONResponse(content=data)
 
 
 # Route pour gérer les résultats de recherche
@@ -138,7 +138,7 @@ async def search(query: str):
         sorted_response = sorted(response['hits']['hits'], key=lambda element: element['_score'], reverse=True)
 
         for doc in sorted_response:
-            html_content += f"<a href='/json-data?id={doc['_source']['id']}'>{doc['_source']['id']} - {doc['_source']['title']}</a><br/>"
+            html_content += f"<a href='http://127.0.0.1:8000/json-data?id={doc['_source']['id']}'>{doc['_source']['id']} - {doc['_source']['title']}</a><br/>"
 
 
     html_content += """
@@ -146,7 +146,3 @@ async def search(query: str):
     </html>
     """
     return html_content
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("app:app", host="127.0.0.1", port=8000, reload=True)

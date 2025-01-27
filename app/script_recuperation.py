@@ -61,9 +61,13 @@ def extracting_files(path: str, list_files: list) -> None:
 		    file.extractall(path)  
 		    print(f"Extraction réussie du fichier: {path+file_to_extract}")
 
+	# Suppression des fichiers compressés
+	os.system(f"rm {path}*.tar.gz")
+
+
 # Récupérer le chemin de chaque fichier xml (avec la commande find)
 def list_of_xml_files(path_source: str) -> list:
-	print("[*] Récuperation d'informations dans les fichiers xml...")
+	print("[*] Récuperation des informations dans les fichiers xml...")
 
 	command = ["find", path_source, "-type", "f", "-name", "*.xml"]
 
@@ -103,13 +107,13 @@ def get_xml_info(path_xml_file: list) -> tuple:
 if __name__ == '__main__':
 	# Variables
 	URL_FILES     = "https://echanges.dila.gouv.fr/OPENDATA/CASS/"
-	PATH_OUTPUT   = "../documents/"
+	PATH_OUTPUT   = f"{os.getcwd()}/documents/"
 
-	URL_ELASTIC   = "http://localhost:9200/"
+	URL_ELASTIC   = "http://host.docker.internal:9200/"
 	INDEX_ELASTIC = "juri_text" 
 	
 
-
+	# Téléchargement des fichiers et extractions
 	list_files = downloading_files(URL_FILES, PATH_OUTPUT)
 	extracting_files(PATH_OUTPUT, list_files)
 
@@ -120,7 +124,7 @@ if __name__ == '__main__':
 	# Chaque élément est un tuple: (id, titre, décision et chemin vers le fichier xml)
 	list_tuple_infos_juritext = [get_xml_info(path) for path in path_xml_files]
 
-
+	# Connexion avec Elasticsearch
 	ei = ElasticIndex(URL_ELASTIC, INDEX_ELASTIC)
 	# Suppression de tous les documents pour ne pas avoir de doublons quand je relance le programme
 	ei.delete_all_data()
