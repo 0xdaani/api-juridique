@@ -13,10 +13,10 @@ L'objectif principal est de faciliter l'accès aux décisions juridiques, soit v
 ### 1. Collecte et Indexation des Données
 
 Ce script assure le traitement des données :  
-	1.	Récupération des données : Télécharge les fichiers depuis l’URL https://echanges.dila.gouv.fr/OPENDATA/CASS/ et les stocke dans le dossier `documents/`.  
-	2.	Extraction : Décompresse les archives tar.gz dans le même dossier.  
-	3.	Connexion à **Elasticsearch** : Établit une connexion avec un cluster Elasticsearch situé à http://localhost:9200/ sur l’index nommé `juri_text`.  
-	4.	Envoi des données : Envoie les données structurées (champs : `id`, `title`, `decision`, `path`) vers l’index Elasticsearch.  
+1.	Récupération des données : Télécharge les fichiers depuis l’URL https://echanges.dila.gouv.fr/OPENDATA/CASS/ et les stocke dans le dossier `documents/`.  
+2.	Extraction : Décompresse les archives tar.gz dans le même dossier.  
+3.	Connexion à **Elasticsearch** : Établit une connexion avec un cluster Elasticsearch situé à http://localhost:9200/ sur l’index nommé `juri_text`.  
+4.	Envoi des données : Envoie les données structurées (champs : `id`, `title`, `decision`, `path`) vers l’index Elasticsearch.  
 
 Une fois les données indexées, le programme termine son exécution.
 
