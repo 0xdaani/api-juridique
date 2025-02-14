@@ -75,7 +75,7 @@ docker-compose down
 
 ---
 
-## Exemple d'une recherche recherche
+## Exemple de recherches
 
 http://127.0.0.1:8000/search?query=14+avril
 
