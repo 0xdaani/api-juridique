@@ -112,13 +112,12 @@ async def search(query: str):
 
     response = ei.es.search(index=ei.index, body={
         "query": {
-            "match_phrase": {
-                "title": f"{query}"
+            "match": {
+                "title": f"*{query}*"
             }
         },
         "size":ei.size_search if ei.size_search <= 10000 else 10000
     })
-
 
     html_content = f"""
     <html>

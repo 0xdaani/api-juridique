@@ -21,25 +21,51 @@ class ElasticIndex(object):
 
 		# Vérifier si l'index existe déjà
 		if not self.es.indices.exists(index=index):
-		    # Définir la configuration de l'index (facultatif)
-		    settings = {
-		        "settings": {
-		            "number_of_shards": 1,  # Nombre de partitions (shards)
-		            "number_of_replicas": 1  # Nombre de réplicas
-		        },
-		        "mappings": {
-		            "properties": {
-			            "id": {"type": "keyword"},
-			            "title": {"type": "text"},
-			            "decision": {"type": "keyword"},
-			            "path": {"type": "text"}
-		            }
-		        }
-		    }
+		    # Définir la configuration de l'index
+		    # (Improve the accuracy of substring searches, we use an analyzers and tokenizers to process the text in your documents)
+			index_mapping = {
+				"settings": {
+					"index.max_ngram_diff": 14, 
+					"analysis": {
+			      		"tokenizer": {
+				        	"ngram_tokenizer": {
+				          		"type": "ngram",
+				         		"min_gram": 2,
+				         		"max_gram": 15,
+				        		"token_chars": ["letter", "digit", "whitespace"]
+				        	}
+				      	},
+				      	"analyzer": {
+				        	"ngram_analyzer": {
+				          		"type": "custom",
+				          		"tokenizer": "ngram_tokenizer",
+				          		"filter": ["lowercase"]
+				        	}
+					    }
+				    }
+				},
+			    "mappings": {
+			        "properties": {
+			            "id": {
+			                "type": "keyword"  # Champ id comme chaîne de caractères non analysée
+			            },
+			            "title": {
+			                "type": "text",  # Champ titre avec analyse pour recherche textuelle
+			                "analyzer": "ngram_analyzer"  # Utilisation de l'analyzer ngram ngram pour recherche partielle
+			            },
+			            "decision": {
+			                "type": "keyword",
+			            },
+			            "path": {
+			                "type": "keyword"
+			            }
+			        }
+			    }
+			}
 
 		    # Créer l'index avec la configuration définie
-		    response = self.es.indices.create(index=index, body=settings)
-		    print(f"Index créé: {response}")
+			response = self.es.indices.create(index=index, body=index_mapping)
+			print(f"Index créé: {response}")
 
 
 	# Supprime tous les documents dans l'index
@@ -107,10 +133,10 @@ class ElasticIndex(object):
 
 if __name__ == '__main__':
 	# Variables
-	INDEX_ELASTIC        = "juri_text" 
-	URL_ELASTIC          = "http://localhost:9200/"
+	INDEX        = "juri_text" 
+	URL          = "http://localhost:9200/"
 
-	ei = ElasticIndex(URL_ELASTIC, INDEX_ELASTIC)
+	ei = ElasticIndex(URL, INDEX)
 	# # Suppression de tous les documents pour ne pas avoir de doublons quand je relance le programme
 	# ei.delete_all_data()
 
