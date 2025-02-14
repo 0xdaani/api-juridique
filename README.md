@@ -30,7 +30,6 @@ Le deuxième script lance un serveur **FastAPI** permettant de consommer les don
 
 2. **Recherche par titre** : 
    - Rechercher des données via le titre.
-   - Note : La recherche fonctionne uniquement sur des mots complets.
 
 ### 3. ElasticIndex.py
 
@@ -78,7 +77,8 @@ docker-compose down
 
 ## Exemple d'une recherche recherche
 
-http://127.0.0.1:8000/search?query=1+avril
+http://127.0.0.1:8000/search?query=14+avril
+http://127.0.0.1:8000/search?query=14+avri
 
 
 
