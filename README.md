@@ -1,4 +1,4 @@
-# Test technique Juri'Predis 2025
+# Exposition de données juridiques via une API REST
 
 ## Description
 
