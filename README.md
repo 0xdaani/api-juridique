@@ -43,7 +43,7 @@ Elle est dédiée à la gestion des interactions avec Elasticsearch :
 
 ---
 
-## Lancement du Projet
+## Usage
 
 Prérequis: Installer Docker (avec Docker Compose).
 
