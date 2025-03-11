@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copier les fichiers dans le conteneur
 COPY app/ /usr/src/app/
 
-# Exécuter un script uniquement pendant le build
+# Exécuter le script de récupération uniquement pendant le build
 RUN python3 -u script_recuperation.py
 
 # Exposer le port 8000 pour FastAPI
