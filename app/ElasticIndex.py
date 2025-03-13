@@ -8,7 +8,7 @@ warnings.filterwarnings("ignore", category=ElasticsearchWarning)
 class ElasticIndex(object):
 	"""doc ElasticIndex"""
 
-	def __init__(self, url, index):
+	def __init__(self, url: str, index: str):
 		self.es = Elasticsearch(url)
 		self.index = index
 		self.size_search = 0
