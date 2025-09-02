@@ -48,8 +48,8 @@ Elle est dédiée à la gestion des interactions avec Elasticsearch :
 Prérequis: Installer Docker (avec Docker Compose).
 
 ```bash
-git clone https://github.com/0xdaani/Test-techique-juripredis
-cd Test-techique-juripredis/
+git clone https://github.com/0xdaani/api-juridique
+cd api-juridique/
 
 # Démarrer Elasticsearch avec Docker Compose
 docker-compose up elasticsearch
